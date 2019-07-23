@@ -87,9 +87,11 @@ class ThreeController extends Controller
         $token = $obj->setsalt()->createtoken($uid, $username);
         if(Redis::exists($uid)){
             Redis::set($uid,$info);
+            Redis::expire($uid,3600);
             return $this->fail("210", $this->status['210'], $token);
         }else{
             Redis::set($uid,$info);
+            Redis::expire($uid,3600);
             return $this->fail("200", $this->status['200'], $token);
         }
 
